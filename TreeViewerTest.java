@@ -19,7 +19,7 @@ public class TreeViewerTest {
     @BeforeEach
     void getTrees(){
         try {
-            String filename = "treelist.csv"; //change this accordingly
+            String filename = "treelist.csv"; //change this accordingly test
             this.trees = TreeReader.readTreesFromFile(filename);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
