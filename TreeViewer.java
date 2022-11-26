@@ -3,6 +3,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,7 +36,10 @@ public class TreeViewer extends Application {
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
     private TextField txtSummary; //a summary of the trees on the map
-
+    private TextField maximum;
+    private TextField minimum;
+    public Label inputError = new Label("");
+    public Label TreeNum = new Label("");
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
@@ -124,16 +128,28 @@ public class TreeViewer extends Application {
         //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
-
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, txtSummary);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
-
+        //--------------------------
+        Label a = new Label("Trees with diameters (in centimeters) from ");
+        minimum = new TextField("");
+        minimum.setId("minimum");
+        Label b = new Label("to");
+        maximum = new TextField("");
+        maximum.setId("maximum");
+        Button searchDiameter = new Button("search");
+        HBox gbox = new HBox(a, minimum, b, maximum, searchDiameter);
+        inputError.setText("");
+        TreeNum.setText("");
+        DiameterEventHandler newHandler = new DiameterEventHandler(this);
+        searchDiameter.addEventHandler(MouseEvent.MOUSE_CLICKED, newHandler);
+        //----------------------------------
+        HBox xbox = new HBox(inputError, TreeNum);
         //set horizontal box within a virtical box and attach to the scene graph
-        VBox vbox = new VBox(hbox, anchorRoot);
-
+        VBox vbox = new VBox(hbox, anchorRoot, gbox, xbox);
         //attach all scene graph elements to the scene
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
@@ -148,6 +164,9 @@ public class TreeViewer extends Application {
     public double[] getBoundaries() {
         return new double[]{llx, lly, urx, ury};
     }
+    public TextField getminimum() {return minimum;}
+    public TextField getmaximum() {return maximum;}
+
 
     /** Get height of display
      *
@@ -164,7 +183,6 @@ public class TreeViewer extends Application {
     public int getWidth() {
         return w;
     }
-
     /** Get Anchor Root, used for event handling
      *
      * @return anchorRoot
