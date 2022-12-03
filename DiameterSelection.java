@@ -1,4 +1,6 @@
 public class DiameterSelection implements Command{
+    //Nov 18 log: up the empty classes and interface
+    //Nov 24 log: Implement DiameterSelection
     private TreeViewer t;
     private double d1;
     private double d2;

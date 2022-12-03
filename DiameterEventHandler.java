@@ -1,9 +1,8 @@
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 public class DiameterEventHandler implements EventHandler<MouseEvent>{
+    //Nov 18 log: up the empty classes and interface
+    //Nov 21 log: Implemented Command and DiameterEventHandler
     private TreeViewer treeView;
     public DiameterEventHandler(TreeViewer t){
         this.treeView = t;

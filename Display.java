@@ -4,6 +4,8 @@ import treeviz.MunicipalTree;
 import java.util.List;
 
 public class Display {
+    //Nov 18 log: up the empty classes and interface
+    //Nov 27 log: Implement Display
     public static void exe(DiameterSelection c){
         int treeNum = 0;
         List<MunicipalTree> trees = c.getTreeViewer().getTrees();
@@ -12,8 +14,7 @@ public class Display {
                 treeNum ++;
             }
         }
-        c.getTreeViewer().TreeNum.setText(" There are "+ treeNum + " trees within the range");
-        treeNum = 0;
+        c.getTreeViewer().TreeNum.setText("There are currently "+ treeNum + " trees within the range.");
     }
 }
 

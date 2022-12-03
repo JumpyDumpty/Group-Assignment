@@ -134,6 +134,7 @@ public class TreeViewer extends Application {
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
         //--------------------------
+        //Nov 17 log: Added HBox, button and textboxes
         Label a = new Label("Trees with diameters (in centimeters) from ");
         minimum = new TextField("");
         minimum.setId("minimum");
