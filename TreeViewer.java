@@ -165,8 +165,8 @@ public class TreeViewer extends Application {
     public double[] getBoundaries() {
         return new double[]{llx, lly, urx, ury};
     }
-    public TextField getminimum() {return minimum;}
-    public TextField getmaximum() {return maximum;}
+    public TextField getMinimum() {return minimum;}
+    public TextField getMaximum() {return maximum;}
 
 
     /** Get height of display
