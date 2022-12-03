@@ -53,10 +53,9 @@ public class Highlight implements Strategy {
         return vals;
     }
 
-
     /**
-     * Helper method that redraws all the non-selected trees and also returns
-     * an ArrayList of selected trees
+     * Redraws all the non-selected trees and also returns
+     * the selected trees
      *
      * @return ArrayList of selected trees
      */
@@ -83,7 +82,7 @@ public class Highlight implements Strategy {
                     circle.setCenterX(xval);
                     circle.setCenterY(yval);
                     circle.setRadius(3);
-                    circle.setFill(Color.DARKGREEN);
+                    circle.setFill(Color.DARKGRAY);
                     treeView.getAnchorRoot().getChildren().add(circle); //attach each circle to the scene graph
                     treeView.getUndoStack().add(circle);
                 }
@@ -93,7 +92,7 @@ public class Highlight implements Strategy {
     }
 
     /**
-     * Helper method that draws the selected trees as green
+     * Method that draws the selected trees as green
      * @param selectedTrees selected trees to be highlighted
      */
     private void drawSelected(ArrayList<MunicipalTree> selectedTrees) {
@@ -103,13 +102,20 @@ public class Highlight implements Strategy {
             double xval = xYVals[0];
             double yval = xYVals[1];
             if (yval < height & yval > 0 & xval < width & xval > 0) {
+                Circle perimiter = new Circle();
+                perimiter.setCenterX(xval);
+                perimiter.setCenterY(yval);
+                perimiter.setRadius(6);
+                perimiter.setFill(Color.BLACK);
                 Circle circle = new Circle();
                 circle.setCenterX(xval);
                 circle.setCenterY(yval);
                 circle.setRadius(4);
-                circle.setFill(Color.RED);
+                circle.setFill(Color.ORANGERED);
+                treeView.getAnchorRoot().getChildren().add(perimiter);
                 treeView.getAnchorRoot().getChildren().add(circle); //attach each circle to the scene graph
                 treeView.getUndoStack().add(circle);
+                treeView.getUndoStack().add(perimiter);
                 selectedNum++;
             }
         }
