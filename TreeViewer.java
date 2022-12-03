@@ -115,6 +115,8 @@ public class TreeViewer extends Application {
         //add button to UI
         Button filterTrees = new Button("Filter Tree List");
         filterTrees.setId("filterTrees");
+        Button highlightTrees = new Button ("Highlight Trees");
+        highlightTrees.setId("highlightTrees");
 
         //add text field to UI
         txtSummary = new TextField();
@@ -124,9 +126,11 @@ public class TreeViewer extends Application {
         //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
+        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
+        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
 
         //set UI elements within a horizontal box
-        HBox hbox = new HBox(treeSelect, filterTrees, txtSummary);
+        HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);

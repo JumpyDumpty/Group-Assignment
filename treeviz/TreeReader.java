@@ -13,12 +13,12 @@ public class TreeReader {
     
     /**
      * Get a list of trees from a csv file
-     * 
+     *
      * @param filename Name of the file to read
      * @return a list of trees retrieved from the file.
      * @throws IOException if the filename is invalid.
      */
-    public static List<MunicipalTree> readTreesFromFile(String filename) throws IOException {
+    public static List<treeviz.MunicipalTree> readTreesFromFile(String filename) throws IOException {
         String line = "";
         boolean flag = false;
         List<MunicipalTree> trees = new ArrayList<>();
