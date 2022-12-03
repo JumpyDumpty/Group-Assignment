@@ -35,6 +35,11 @@ public class TreeViewer extends Application {
 
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
+    private TextField txtSummary; //a summary of the trees on the map
+    private TextField maximum;
+    private TextField minimum;
+    public Label inputError = new Label("");
+    public Label TreeNum = new Label("");
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
@@ -128,8 +133,23 @@ public class TreeViewer extends Application {
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
+        //--------------------------
+        Label a = new Label("Trees with diameters (in centimeters) from ");
+        minimum = new TextField("");
+        minimum.setId("minimum");
+        Label b = new Label("to");
+        maximum = new TextField("");
+        maximum.setId("maximum");
+        Button searchDiameter = new Button("search");
+        HBox gbox = new HBox(a, minimum, b, maximum, searchDiameter);
+        inputError.setText("");
+        TreeNum.setText("");
+        DiameterEventHandler newHandler = new DiameterEventHandler(this);
+        searchDiameter.addEventHandler(MouseEvent.MOUSE_CLICKED, newHandler);
+        //----------------------------------
+        HBox xbox = new HBox(inputError, TreeNum);
         //set horizontal box within a virtical box and attach to the scene graph
-        VBox vbox = new VBox(hbox, anchorRoot);
+        VBox vbox = new VBox(hbox, anchorRoot, gbox, xbox);
         //attach all scene graph elements to the scene
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
