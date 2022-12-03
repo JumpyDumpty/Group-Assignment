@@ -54,7 +54,7 @@ public class Highlight implements Strategy {
     }
 
     /**
-     * Redraws all the non-selected trees and also returns
+     * Redraws all the non-selected trees gray and also returns
      * the selected trees
      *
      * @return ArrayList of selected trees
@@ -92,7 +92,7 @@ public class Highlight implements Strategy {
     }
 
     /**
-     * Method that draws the selected trees as green
+     * Method that draws the selected trees as red with a black perimeter
      * @param selectedTrees selected trees to be highlighted
      */
     private void drawSelected(ArrayList<MunicipalTree> selectedTrees) {
