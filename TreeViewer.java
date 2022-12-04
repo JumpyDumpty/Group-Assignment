@@ -3,6 +3,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,8 +35,6 @@ public class TreeViewer extends Application {
 
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
-    private TextField txtSummary; //a summary of the trees on the map
-
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
@@ -128,16 +127,14 @@ public class TreeViewer extends Application {
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
         TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
         highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
-
+        
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
-
         //set horizontal box within a virtical box and attach to the scene graph
         VBox vbox = new VBox(hbox, anchorRoot);
-
         //attach all scene graph elements to the scene
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
@@ -152,6 +149,9 @@ public class TreeViewer extends Application {
     public double[] getBoundaries() {
         return new double[]{llx, lly, urx, ury};
     }
+    public TextField getminimum() {return minimum;}
+    public TextField getmaximum() {return maximum;}
+
 
     /** Get height of display
      *
@@ -168,7 +168,6 @@ public class TreeViewer extends Application {
     public int getWidth() {
         return w;
     }
-
     /** Get Anchor Root, used for event handling
      *
      * @return anchorRoot
