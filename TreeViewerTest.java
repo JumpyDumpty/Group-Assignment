@@ -43,6 +43,17 @@ public class TreeViewerTest {
         int count = TreeInfo.getTreeCount("BALSAM FIR", this.trees);
         assertEquals(37,count);
     }
+    // these helpers are now private
+    //@Test
+   // void aHelperTest(){
+       // boolean result = TreePopUpHandler.aHelper("MULTI,50,NorwayMaple,-79.64259,43.53124");
+      //  assertEquals(true, result);
+   // }
+   // @Test
+   // void anotherTest(){
+       // boolean result = TreePopUpHandler.isNumeric("-60.89");
+      //  assertEquals(true, result);
+ //   }
 
 
 
