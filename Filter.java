@@ -8,7 +8,7 @@ import treeviz.MunicipalTree;
 import java.util.List;
 
 /**
- * A class implementing the strategy for filtering trees with a specific name from the map
+ * A concrete Strategy to implement displaying the selected trees
  */
 public class Filter implements Strategy {
     //parameters and comments copied from TreeFilterEventHandler class!

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implements highlighting trees with a specific name as a strategy
+ * A concrete Strategy to implement highlighting a specific tree type on the map
  */
 public class Highlight implements Strategy {
     private ChoiceBox treeSelect; //select box ref
@@ -122,9 +122,13 @@ public class Highlight implements Strategy {
         this.txtSummary.setText("Trees highlighted: " + selectedNum);
     }
     /**
+     * Draws all trees, highlighting trees of a selected name.
+     * Non-selected trees are drawn as gray. Selected trees are drawn,
+     * slightly larger, in red with a black perimeter.
      * 1. Clear the map of the trees using the undo stack
-     * 2. Redraw the non-selected trees as red circles and selected
-     * trees as green circles over top the previously drawn trees.
+     * 2. Redraw the non-selected trees and then selected trees over top.
+     * If nothing is selected or "ALL TREES" is selected, then all trees
+     * should be redrawn as if they are not selected.
      */
     @Override
     public void execute () {
