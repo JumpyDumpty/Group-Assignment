@@ -14,14 +14,6 @@ import treeviz.TreeWriter;
 import java.util.List;
 import java.util.*;
 
-// this class will:
-// 1. show TextInputDialog when create new tree is clicked
-// 2. verify valid input of UNIT TYPE, diameter, long, lat
-
-// 3. Add tree to treeViewer list field
-// 4. Add tree to csv file
-// 5. display alert messages
-
 /**
  * TreePopUpHandler handles UI events captured via the TreeViewer
  */
@@ -39,13 +31,22 @@ public class TreePopUpHandler implements EventHandler<MouseEvent> {
         this.treeView = view;
 
     }
+    /**
+     * Helper method
+     *
+     * @param a reference to string
+     */
     private static boolean isNumericHelper(String a){
         if(a.matches("-?[0-9]+(\\.[0-9]+)?")){
             return true;
         }
         return false;
     }
-
+    /**
+     * Helper method
+     *
+     * @param input reference to string user input from the TextInputDialog TreeViewer
+     */
 
 
     private static boolean aHandleHelper(String input){
@@ -76,10 +77,11 @@ public class TreePopUpHandler implements EventHandler<MouseEvent> {
     }
     /**
      * Handle a mouse event (i.e. a button click)!  This routine will need to:
-     * 1. Clear (or UNDO) all the circles from the existing view
-     * 2. Cycle thru the list of trees and redraw circles that correspond to the tree type selected
-     * 3. Remember to register any circles you draw on the "undo" stack, so they can be undone later!
-     * 4. Remember also that if the user selects "ALL TREES", all the trees should be drawn
+     * 1. show TextInputDialog when 'create new tree' button is clicked
+     * 2. verify valid input of UNIT TYPE, diameter, long, lat using helper
+     * 3. Add tree to treeViewer list field for display
+     * 4. Write tree to csv file
+     * 5. display alert messages
      *
      * @param event The mouse event
      */

@@ -35,7 +35,7 @@ public class TreeViewer extends Application {
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
     private TextField txtSummary;
-    private TextInputDialog txtinput;
+    private TextInputDialog txtinput; //pop up window with textfield for user input
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
