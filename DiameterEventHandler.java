@@ -9,8 +9,8 @@ public class DiameterEventHandler implements EventHandler<MouseEvent>{
     }
     public void handle(MouseEvent e){
         try{
-            double mi = Double.parseDouble(treeView.getminimum().getText());
-            double ma = Double.parseDouble(treeView.getmaximum().getText());
+            double mi = Double.parseDouble(treeView.getMinimum().getText());
+            double ma = Double.parseDouble(treeView.getMaximum().getText());
             if(mi > ma){
                 DiameterSelection d = new DiameterSelection(treeView, ma, mi);
                 d.execute();
