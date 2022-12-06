@@ -52,8 +52,7 @@ public class TreeViewer extends Application {
     private final double ury = -79.68072;
     private final double llx = 43.52961;
     private final double lly = -79.62886;
-    private TextField minimum;
-    private TextField maximum;
+
 
     /**
      * Make a TreeViewer, to view trees in Mississauga
