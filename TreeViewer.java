@@ -1,6 +1,3 @@
-import font.adjust.BigFont;
-import font.adjust.DefaultFont;
-import font.adjust.FontChange;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -19,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+import font.adjustment.*;
 
 import treeviz.*; //import visualization helpers
 
@@ -119,7 +117,7 @@ public class TreeViewer extends Application {
             }
         }
 
-        //add buttons to UI
+        //add button to UI
         Button filterTrees = new Button("Filter Tree List");
         filterTrees.setId("filterTrees");
         Button highlightTrees = new Button ("Highlight Trees");
@@ -136,7 +134,7 @@ public class TreeViewer extends Application {
         txtSummary.setId("txtSummary");
         txtSummary.setText("Trees selected: " + undoStack.size());
 
-        //add event handlers to UI
+        //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
 
@@ -145,18 +143,33 @@ public class TreeViewer extends Application {
         defaultFont.addEventHandler(MouseEvent.MOUSE_CLICKED, defFontHandler);
         bigFont.addEventHandler(MouseEvent.MOUSE_CLICKED, bigFontHandler);
 
+        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
+        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
+
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
-
-        HBox bottomHBox = new HBox(defaultFont, bigFont);
-        bottomHBox.setPadding(new Insets(10));
-        bottomHBox.setSpacing(10);
-
-        //set horizontal box within a vertical box and attach to the scene graph
-        VBox vbox = new VBox(hbox, anchorRoot, bottomHBox);
+        //--------------------------
+        //Nov 17 log: Added HBox, button and textboxes
+        Label a = new Label("Trees with diameters (in centimeters) from ");
+        minimum = new TextField("");
+        minimum.setId("minimum");
+        Label b = new Label("to");
+        maximum = new TextField("");
+        maximum.setId("maximum");
+        Button searchDiameter = new Button("search");
+        HBox gbox = new HBox(defaultFont, bigFont, a, minimum, b, maximum, searchDiameter);
+        inputError.setText("");
+        TreeNum.setText("");
+        DiameterEventHandler newHandler = new DiameterEventHandler(this);
+        searchDiameter.addEventHandler(MouseEvent.MOUSE_CLICKED, newHandler);
+        //----------------------------------
+        HBox xbox = new HBox(inputError, TreeNum);
+        //set horizontal box within a virtical box and attach to the scene graph
+        VBox vbox = new VBox(hbox, anchorRoot, gbox, xbox);
+        //attach all scene graph elements to the scene
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
         primaryStage.show(); //... and ... go.
@@ -164,8 +177,6 @@ public class TreeViewer extends Application {
         //adds texts and buttons onto list of objects for font change
         addText(txtSummary, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
         addText(filterTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
-        addText(defaultFont, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
-        addText(bigFont, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
         addText(highlightTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
     }
 
@@ -232,12 +243,6 @@ public class TreeViewer extends Application {
      */
     public List<MunicipalTree> getTrees() { return this.trees; }
 
-    /** Adds a textfield object to list of texts for font change
-     *
-     * @param text the TextField to be added to list
-     * @param def the DefaultFont handler
-     * @param big the BigFont handler
-     */
     public void addText(TextField text, DefaultFont def, BigFont big) {
         def.addText(text);
         big.addText(text);
