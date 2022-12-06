@@ -13,8 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+
 import javafx.stage.Popup;
 import javafx.stage.Window;
+
+import font.adjustment.*;
 
 import treeviz.*; //import visualization helpers
 
@@ -34,8 +37,15 @@ public class TreeViewer extends Application {
 
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
+
     private TextField txtSummary;
     private TextInputDialog txtinput; //pop up window with textfield for user input
+
+    private TextField maximum;
+    private TextField minimum;
+    public Label inputError = new Label("");
+    public Label TreeNum = new Label("");
+
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
@@ -119,9 +129,12 @@ public class TreeViewer extends Application {
         filterTrees.setId("filterTrees");
         Button CreateNewTree = new Button("Create new Tree");
         CreateNewTree.setId("createNewTree");
-
-
-
+        Button highlightTrees = new Button ("Highlight Trees");
+        highlightTrees.setId("highlightTrees");
+        Button defaultFont = new Button("Default Font");
+        defaultFont.setId("defaultFont");
+        Button bigFont = new Button("Big Font");
+        bigFont.setId("bigFont");
 
         //add text field to UI
         txtSummary = new TextField();
@@ -140,15 +153,41 @@ public class TreeViewer extends Application {
         //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
+
         TreePopUpHandler PopupButtonHandler = new TreePopUpHandler(this);
         CreateNewTree.addEventHandler(MouseEvent.MOUSE_CLICKED, PopupButtonHandler);
+
+        FontChange defFontHandler = new DefaultFont();
+        FontChange bigFontHandler = new BigFont();
+        defaultFont.addEventHandler(MouseEvent.MOUSE_CLICKED, defFontHandler);
+        bigFont.addEventHandler(MouseEvent.MOUSE_CLICKED, bigFontHandler);
+
+        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
+        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
+        
         //set UI elements within a horizontal box
-        HBox hbox = new HBox(treeSelect, filterTrees, txtSummary, CreateNewTree);
+        HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary, CreateNewTree);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
+        //--------------------------
+        //Nov 17 log: Added HBox, button and textboxes
+        Label a = new Label("Trees with diameters (in centimeters) from ");
+        minimum = new TextField("");
+        minimum.setId("minimum");
+        Label b = new Label("to");
+        maximum = new TextField("");
+        maximum.setId("maximum");
+        Button searchDiameter = new Button("search");
+        HBox gbox = new HBox(defaultFont, bigFont, a, minimum, b, maximum, searchDiameter);
+        inputError.setText("");
+        TreeNum.setText("");
+        DiameterEventHandler newHandler = new DiameterEventHandler(this);
+        searchDiameter.addEventHandler(MouseEvent.MOUSE_CLICKED, newHandler);
+        //----------------------------------
+        HBox xbox = new HBox(inputError, TreeNum);
         //set horizontal box within a virtical box and attach to the scene graph
-        VBox vbox = new VBox(hbox, anchorRoot);
+        VBox vbox = new VBox(hbox, anchorRoot, gbox, xbox);
         //attach all scene graph elements to the scene
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
@@ -157,6 +196,10 @@ public class TreeViewer extends Application {
 
 
 
+        //adds texts and buttons onto list of objects for font change
+        addText(txtSummary, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(filterTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(highlightTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
     }
 
     /** Get latitude and longitude boundaries of display
@@ -166,8 +209,8 @@ public class TreeViewer extends Application {
     public double[] getBoundaries() {
         return new double[]{llx, lly, urx, ury};
     }
-    public TextField getminimum() {return minimum;}
-    public TextField getmaximum() {return maximum;}
+    public TextField getMinimum() {return minimum;}
+    public TextField getMaximum() {return maximum;}
 
 
     /** Get height of display
@@ -221,9 +264,24 @@ public class TreeViewer extends Application {
      * @return trees
      */
     public List<MunicipalTree> getTrees() { return this.trees; }
+
     public TextInputDialog getTxtinput() {
         return this.txtinput;
     }
 
+    public void addText(TextField text, DefaultFont def, BigFont big) {
+        def.addText(text);
+        big.addText(text);
+    }
 
+    /** Adds a button object to list of buttons for font change
+     *
+     * @param button the Button to be added to list
+     * @param def the DefaultFont handler
+     * @param big the bigFont handler
+     */
+    public void addText(Button button, DefaultFont def, BigFont big) {
+        def.addText(button);
+        big.addText(button);
+    }
 }

@@ -8,6 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import treeviz.MunicipalTree;
+import Strategy.Context;
+
 
 import java.util.*;
 
@@ -16,9 +18,8 @@ import java.util.*;
  */
 public class TreeFilterEventHandler implements EventHandler<MouseEvent> {
 
-    private ChoiceBox treeSelect; //select box ref
-    private TextField txtSummary; //summary of tree counts
     private TreeViewer treeView; //the tree view
+    private Context context; //holds the strategy for filtering trees
 
     /**
      * Constructor
@@ -26,8 +27,10 @@ public class TreeFilterEventHandler implements EventHandler<MouseEvent> {
      */
     public TreeFilterEventHandler(TreeViewer view) {
         this.treeView = view;
-        this.treeSelect = view.getTreeSelect();
-        this.txtSummary = view.getTxtSummary();
+
+        //Strategy initialization;
+        this.context = new Context();
+        this.context.setStrategy(new Filter(this.treeView));
     }
 
     /**
@@ -41,41 +44,8 @@ public class TreeFilterEventHandler implements EventHandler<MouseEvent> {
      */
     @Override
     public void handle(MouseEvent event) {
-        if (event.getButton() == MouseButton.PRIMARY){
-            String selectedType = (String) treeSelect.getValue();
-            List<MunicipalTree> trees = treeView.getTrees();
-            while (!treeView.getUndoStack().isEmpty()){
-                Object circle = treeView.getUndoStack().pop();
-                treeView.getAnchorRoot().getChildren().remove(circle);
-            }
-            double[] boundries = treeView.getBoundaries();
-            double llx = boundries[0];
-            double lly = boundries[1];
-            double urx = boundries[2];
-            double ury = boundries[3];
-            int height = treeView.getHeight();
-            int width = treeView.getWidth();
-            double[] coords;
-            for (MunicipalTree t: trees){
-                if (selectedType == null || t.getName().equalsIgnoreCase(selectedType) ||
-                        selectedType.equalsIgnoreCase("ALL TREES")){
-                    coords = t.getLoc().getCoords();
-                    double yval = (double) height - height*((coords[1] - llx)/(urx - llx));
-                    double xval = (double) width - width*((coords[0] - lly)/(ury - lly));
-                    if (yval < height & yval > 0 & xval < width & xval > 0){
-                        Circle circle = new Circle();
-                        circle.setCenterX(xval);
-                        circle.setCenterY(yval);
-                        circle.setRadius(3);
-                        circle.setFill(Color.RED);
-                        treeView.getAnchorRoot().getChildren().add(circle); //attach each circle to the scene graph
-                        treeView.getUndoStack().add(circle);
-                    }
-                }
-            }
-            this.txtSummary.setText("Trees selected: " + treeView.getUndoStack().size());
+        if (event.getButton() == MouseButton.PRIMARY) {
+            context.executeStrategy();
         }
     }
-
-
 }
