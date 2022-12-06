@@ -123,6 +123,12 @@ public class TreeViewer extends Application {
         Button highlightTrees = new Button ("Highlight Trees");
         highlightTrees.setId("highlightTrees");
 
+        Button defaultFont = new Button("Default Font");
+        defaultFont.setId("defaultFont");
+
+        Button bigFont = new Button("Big Font");
+        bigFont.setId("bigFont");
+
         //add text field to UI
         txtSummary = new TextField();
         txtSummary.setId("txtSummary");
@@ -140,8 +146,6 @@ public class TreeViewer extends Application {
         TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
         highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
 
-        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
-        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
         
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
