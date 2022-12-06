@@ -122,6 +122,10 @@ public class TreeViewer extends Application {
         filterTrees.setId("filterTrees");
         Button highlightTrees = new Button ("Highlight Trees");
         highlightTrees.setId("highlightTrees");
+        Button defaultFont = new Button("Default Font");
+        defaultFont.setId("defaultFont");
+        Button bigFont = new Button("Big Font");
+        bigFont.setId("bigFont");
 
         //add text field to UI
         txtSummary = new TextField();
@@ -158,7 +162,6 @@ public class TreeViewer extends Application {
         maximum.setId("maximum");
         Button searchDiameter = new Button("search");
         HBox gbox = new HBox(defaultFont, bigFont, a, minimum, b, maximum, searchDiameter);
-        HBox gbox = new HBox(a, minimum, b, maximum, searchDiameter);
         inputError.setText("");
         TreeNum.setText("");
         DiameterEventHandler newHandler = new DiameterEventHandler(this);
