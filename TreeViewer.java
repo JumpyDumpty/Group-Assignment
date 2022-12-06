@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+import font.adjustment.*;
 
 import treeviz.*; //import visualization helpers
 
@@ -130,6 +131,15 @@ public class TreeViewer extends Application {
         //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
+
+        FontChange defFontHandler = new DefaultFont();
+        FontChange bigFontHandler = new BigFont();
+        defaultFont.addEventHandler(MouseEvent.MOUSE_CLICKED, defFontHandler);
+        bigFont.addEventHandler(MouseEvent.MOUSE_CLICKED, bigFontHandler);
+
+        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
+        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
+
         TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
         highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
         
@@ -147,6 +157,7 @@ public class TreeViewer extends Application {
         maximum = new TextField("");
         maximum.setId("maximum");
         Button searchDiameter = new Button("search");
+        HBox gbox = new HBox(defaultFont, bigFont, a, minimum, b, maximum, searchDiameter);
         HBox gbox = new HBox(a, minimum, b, maximum, searchDiameter);
         inputError.setText("");
         TreeNum.setText("");
@@ -161,6 +172,10 @@ public class TreeViewer extends Application {
         primaryStage.setScene(scene); //set the scene ...
         primaryStage.show(); //... and ... go.
 
+        //adds texts and buttons onto list of objects for font change
+        addText(txtSummary, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(filterTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(highlightTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
     }
 
     /** Get latitude and longitude boundaries of display
@@ -225,4 +240,20 @@ public class TreeViewer extends Application {
      * @return trees
      */
     public List<MunicipalTree> getTrees() { return this.trees; }
+
+    public void addText(TextField text, DefaultFont def, BigFont big) {
+        def.addText(text);
+        big.addText(text);
+    }
+
+    /** Adds a button object to list of buttons for font change
+     *
+     * @param button the Button to be added to list
+     * @param def the DefaultFont handler
+     * @param big the bigFont handler
+     */
+    public void addText(Button button, DefaultFont def, BigFont big) {
+        def.addText(button);
+        big.addText(button);
+    }
 }
