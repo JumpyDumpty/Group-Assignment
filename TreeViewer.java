@@ -143,9 +143,6 @@ public class TreeViewer extends Application {
 
         TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
         highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
-
-        TreeHighlightEventHandler treeHighlightHandler = new TreeHighlightEventHandler(this);
-        highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
         
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
