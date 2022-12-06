@@ -140,11 +140,11 @@ public class TreeViewer extends Application {
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
 
-    
         FontChange defFontHandler = new DefaultFont();
         FontChange bigFontHandler = new BigFont();
         defaultFont.addEventHandler(MouseEvent.MOUSE_CLICKED, defFontHandler);
         bigFont.addEventHandler(MouseEvent.MOUSE_CLICKED, bigFontHandler);
+
         //set UI elements within a horizontal box
         HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
@@ -164,6 +164,9 @@ public class TreeViewer extends Application {
         //adds texts and buttons onto list of objects for font change
         addText(txtSummary, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
         addText(filterTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(defaultFont, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(bigFont, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
+        addText(highlightTrees, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
     }
 
     /** Get latitude and longitude boundaries of display
