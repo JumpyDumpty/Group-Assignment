@@ -1,10 +1,7 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
+
+import javafx.stage.Popup;
+import javafx.stage.Window;
+
 import font.adjustment.*;
 
 import treeviz.*; //import visualization helpers
@@ -36,17 +37,23 @@ public class TreeViewer extends Application {
 
     //UI elements on a tree view we will want other methods to access
     private final ChoiceBox<Object> treeSelect; //the list of tree options
-    private TextField txtSummary; //a summary of the trees on the map
+
+    private TextField txtSummary;
+    private TextInputDialog txtinput; //pop up window with textfield for user input
+
     private TextField maximum;
     private TextField minimum;
     public Label inputError = new Label("");
     public Label TreeNum = new Label("");
+
     private final int h = 417; //dimensions of the map for display
     private final int w = 600;
     private final double urx = 43.55618; //coordinate boundaries of the map
     private final double ury = -79.68072;
     private final double llx = 43.52961;
     private final double lly = -79.62886;
+    private TextField minimum;
+    private TextField maximum;
 
     /**
      * Make a TreeViewer, to view trees in Mississauga
@@ -117,9 +124,11 @@ public class TreeViewer extends Application {
             }
         }
 
-        //add button to UI
+        //add buttons to UI
         Button filterTrees = new Button("Filter Tree List");
         filterTrees.setId("filterTrees");
+        Button CreateNewTree = new Button("Create new Tree");
+        CreateNewTree.setId("createNewTree");
         Button highlightTrees = new Button ("Highlight Trees");
         highlightTrees.setId("highlightTrees");
         Button defaultFont = new Button("Default Font");
@@ -132,9 +141,21 @@ public class TreeViewer extends Application {
         txtSummary.setId("txtSummary");
         txtSummary.setText("Trees selected: " + undoStack.size());
 
+
+
+        // txt input popup
+        txtinput = new TextInputDialog();
+        txtinput.setTitle("Custom Tree Information");
+        txtinput.setHeaderText("Enter unit type(DECID,CONFIR,MULTI), botanical name, diameter, longitude and latitude");
+        txtinput.setContentText("eg: MULTI,50,Norway Maple,-79.64259,43.53124");
+
+
         //add event handler to UI
         TreeFilterEventHandler treeHandler = new TreeFilterEventHandler(this);
         filterTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHandler);
+
+        TreePopUpHandler PopupButtonHandler = new TreePopUpHandler(this);
+        CreateNewTree.addEventHandler(MouseEvent.MOUSE_CLICKED, PopupButtonHandler);
 
         FontChange defFontHandler = new DefaultFont();
         FontChange bigFontHandler = new BigFont();
@@ -145,7 +166,7 @@ public class TreeViewer extends Application {
         highlightTrees.addEventHandler(MouseEvent.MOUSE_CLICKED, treeHighlightHandler);
         
         //set UI elements within a horizontal box
-        HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary);
+        HBox hbox = new HBox(treeSelect, filterTrees, highlightTrees, txtSummary, CreateNewTree);
         HBox.setHgrow(txtSummary, Priority.ALWAYS);
         hbox.setPadding(new Insets(10));
         hbox.setSpacing(10);
@@ -171,6 +192,9 @@ public class TreeViewer extends Application {
         Scene scene = new Scene(vbox);
         primaryStage.setScene(scene); //set the scene ...
         primaryStage.show(); //... and ... go.
+        //testing
+
+
 
         //adds texts and buttons onto list of objects for font change
         addText(txtSummary, (DefaultFont) defFontHandler, (BigFont) bigFontHandler);
@@ -240,6 +264,10 @@ public class TreeViewer extends Application {
      * @return trees
      */
     public List<MunicipalTree> getTrees() { return this.trees; }
+
+    public TextInputDialog getTxtinput() {
+        return this.txtinput;
+    }
 
     public void addText(TextField text, DefaultFont def, BigFont big) {
         def.addText(text);
