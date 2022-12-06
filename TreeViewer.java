@@ -162,7 +162,6 @@ public class TreeViewer extends Application {
         maximum.setId("maximum");
         Button searchDiameter = new Button("search");
         HBox gbox = new HBox(defaultFont, bigFont, a, minimum, b, maximum, searchDiameter);
-        HBox gbox = new HBox(a, minimum, b, maximum, searchDiameter);
         inputError.setText("");
         TreeNum.setText("");
         DiameterEventHandler newHandler = new DiameterEventHandler(this);
