@@ -122,10 +122,8 @@ public class TreeViewer extends Application {
         filterTrees.setId("filterTrees");
         Button highlightTrees = new Button ("Highlight Trees");
         highlightTrees.setId("highlightTrees");
-
         Button defaultFont = new Button("Default Font");
         defaultFont.setId("defaultFont");
-
         Button bigFont = new Button("Big Font");
         bigFont.setId("bigFont");
 
